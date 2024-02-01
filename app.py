@@ -1,7 +1,7 @@
 import streamlit as st
 import cv2
 import numpy as np
-from io import BytesIO
+
 
 
 def process_image(image):
@@ -9,7 +9,7 @@ def process_image(image):
     bact_name = ['bact_x', 'bact_y', 'bact_z']
 
     img = cv2.imdecode(np.fromstring(image.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
     if img is None:
         st.warning("Unable to read the uploaded image. Please make sure it is a valid image file.")
@@ -52,6 +52,7 @@ def process_image(image):
                 cv2.circle(mask, center, int(rad2), 255, -1)
 
                 circular_region = cv2.bitwise_and(img, img, mask=mask)
+                circular_region = cv2.cvtColor(circular_region,cv2.COLOR_RGB2BGR)
 
                 b, g, r = cv2.split(circular_region)
 
